@@ -25,6 +25,11 @@
 (rc/require-theme 'gruvbox)
 (rc/require 'smex)
 
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
 (use-package magit
   :ensure t)
 
@@ -47,6 +52,13 @@
 	 (rust-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer"))))
+
+(use-package python-mode
+  :mode ("\\.py" . python-mode)
+  :hook ((python-mode . eglot-ensure)
+         (python-mode . company-mode))
+  :config
+  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp"))))
 
 ;; keybinds
 (global-set-key (kbd "M-x") 'smex)
