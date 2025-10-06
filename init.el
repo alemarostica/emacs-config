@@ -39,6 +39,7 @@
 (use-package company
   :ensure t)
 
+;; Eglot is fire
 (use-package eglot
   :demand t
   :bind (:map eglot-mode-map
@@ -53,12 +54,38 @@
   :config
   (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer"))))
 
+;; I hate python, but I have to use it
 (use-package python-mode
   :mode ("\\.py" . python-mode)
   :hook ((python-mode . eglot-ensure)
          (python-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(python-mode . ("pylsp"))))
+
+;; projectile
+(use-package projectile
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1)
+  :ensure t)
+
+;; c-mode and c++-mode eglot
+(use-package c-mode
+  :mode ("\\.c" . c-mode)
+  :mode ("\\.h" . c-mode)
+  :hook ((c-mode . eglot-ensure)
+         (c-mode . company-mode))
+  :config
+  (add-to-list 'eglot-server-programs '(c-mode . ("clangd"))))
+
+(use-package c++-mode
+  :mode ("\\.cc" . c++-mode)
+  :mode ("\\.cpp" . c++-mode)
+  :mode ("\\.cxx" . c++-mode)
+  :hook ((c++-mode . eglot-ensure)
+         (c++-mode . company-mode))
+  :config
+  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))) 
 
 ;; keybinds
 (global-set-key (kbd "M-x") 'smex)

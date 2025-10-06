@@ -11,9 +11,11 @@
      "01a9797244146bbae39b18ef37e6f2ca5bebded90d9fe3a2f342a9e863aaa4fd"
      "e13beeb34b932f309fb2c360a04a460821ca99fe58f69e65557d6c1b10ba18c7"
      default))
+ '(flymake-error-bitmap '(flymake-double-exclamation-mark compilation-error))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(company dash-functional elpy gruvbox-theme magit markdown-mode smex)))
+   '(company dash-functional elpy gruvbox-theme magit markdown-mode
+             projectile smex)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
