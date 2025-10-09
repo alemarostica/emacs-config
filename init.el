@@ -1,6 +1,7 @@
 (package-initialize)
 
 (setq-default indent-tabs-mode nil)
+(setq c-basic-offset 4)
 (setq custom-file "~/.emacs.d/.emacs.custom.el")
 ;;(setq warning-minimum-level :error)
 (setq backup-directory-alist
@@ -24,11 +25,6 @@
 
 (rc/require-theme 'gruvbox)
 (rc/require 'smex)
-
-(use-package elpy
-  :ensure t
-  :init
-  (elpy-enable))
 
 (use-package magit
   :ensure t)
@@ -60,7 +56,7 @@
   :hook ((python-mode . eglot-ensure)
          (python-mode . company-mode))
   :config
-  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp"))))
+  (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver"))))
 
 ;; projectile
 (use-package projectile
@@ -85,7 +81,7 @@
   :hook ((c++-mode . eglot-ensure)
          (c++-mode . company-mode))
   :config
-  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))) 
+  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd"))))
 
 ;; keybinds
 (global-set-key (kbd "M-x") 'smex)
