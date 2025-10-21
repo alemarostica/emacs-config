@@ -56,7 +56,7 @@
   :hook ((python-mode . eglot-ensure)
          (python-mode . company-mode))
   :config
-  (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver"))))
+  (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "-m" "--stdio"))))
 
 ;; projectile
 (use-package projectile
@@ -82,6 +82,13 @@
          (c++-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd"))))
+
+(use-package java-mode
+  :mode ("\\.java" . java-mode)
+  :hook((java-mode . eglot-ensure)
+        (java-mode . company-mode))
+  :config
+  (add-to-list 'eglot-server-programs '(java-mode . ("jdtls"))))
 
 ;; keybinds
 (global-set-key (kbd "M-x") 'smex)

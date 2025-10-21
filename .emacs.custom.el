@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(c-basic-offset 4)
  '(custom-safe-themes
    '("d35afe834d1f808c2d5dc7137427832ccf99ad2d3d65d65f35cc5688404fdf30"
      "8529b6ff705d30e6df50734db169b376e9de050ed56ce4e59ff98d774a710847"
