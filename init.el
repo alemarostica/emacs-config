@@ -26,9 +26,6 @@
 (rc/require-theme 'gruvbox)
 (rc/require 'smex)
 
-(use-package magit
-  :ensure t)
-
 (use-package markdown-mode
   :ensure t)
 
@@ -57,6 +54,18 @@
          (python-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "-m" "--stdio"))))
+;; Se si attiva un venv dopo aver aperto un file da un altro venv
+;; il language server non si setta giusto, bisogna riavviarlo
+(defun my/eglot-restart-after-venv ()
+  "Restart Eglot after activating a new Python virtual environment."
+  (when (and (bound-and-true-p eglot--managed-mode)
+             (let ((client (eglot-current-server)))
+               (when client
+                 (eglot-reconnect client))))))
+             
+(add-hook 'pyvenv-post-activate-hooks #'my/eglot-restart-after-venv)
+(add-hook 'pyvenv-post-deactivate-hooks #'my/eglot-restart-after-venv)
+
 
 ;; projectile
 (use-package projectile
