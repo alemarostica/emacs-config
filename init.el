@@ -17,6 +17,8 @@
 (ido-mode 1)
 (ido-everywhere 1)
 (global-display-line-numbers-mode 1)
+(setq display-line-numbers-widen t)
+(setq display-line-numbers-type 'relative)
 
 (load-file custom-file)
 (load-file "~/.emacs.d/rc/rc.el")
@@ -30,7 +32,11 @@
   :ensure t)
 
 (use-package company
-  :ensure t)
+  :ensure t
+  :config
+  (setq company-idle-delay 0.1)
+  (setq company-minimum-prefix-length 2)
+  (setq company-echo-delay 0.1))
 
 ;; Eglot is fire
 (use-package eglot
@@ -92,6 +98,7 @@
   :config
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd"))))
 
+;; Fuck, Java è speciale, gotta fix this up
 (use-package java-mode
   :mode ("\\.java" . java-mode)
   :hook((java-mode . eglot-ensure)
