@@ -25,7 +25,7 @@
 
 ;; packages
 
-(rc/require-theme 'gruvbox)
+(rc/require-theme 'gruber-darker)
 (rc/require 'smex)
 
 (use-package markdown-mode
@@ -82,17 +82,17 @@
 
 ;; c-mode and c++-mode eglot
 (use-package c-mode
-  :mode ("\\.c" . c-mode)
-  :mode ("\\.h" . c-mode)
+  :mode ("\\.c$" . c-mode)
+  :mode ("\\.h$" . c-mode)
   :hook ((c-mode . eglot-ensure)
          (c-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(c-mode . ("clangd"))))
 
 (use-package c++-mode
-  :mode ("\\.cc" . c++-mode)
-  :mode ("\\.cpp" . c++-mode)
-  :mode ("\\.cxx" . c++-mode)
+  :mode ("\\.cc$" . c++-mode)
+  :mode ("\\.cpp$" . c++-mode)
+  :mode ("\\.cxx$" . c++-mode)
   :hook ((c++-mode . eglot-ensure)
          (c++-mode . company-mode))
   :config
