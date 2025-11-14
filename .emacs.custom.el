@@ -3,8 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(c-basic-offset 4 t)
- '(custom-safe-themes
+  '(custom-safe-themes
    '("d35afe834d1f808c2d5dc7137427832ccf99ad2d3d65d65f35cc5688404fdf30"
      "8529b6ff705d30e6df50734db169b376e9de050ed56ce4e59ff98d774a710847"
      "49ed9b901f15cdf53b17336a390319e82707564725cea5b1bfa3b0d6b95e9cab"
@@ -23,16 +22,8 @@
      "e13beeb34b932f309fb2c360a04a460821ca99fe58f69e65557d6c1b10ba18c7"
      default))
  '(flymake-error-bitmap '(flymake-double-exclamation-mark compilation-error))
- '(inhibit-startup-screen t)
- '(minibuffer-prompt-properties '(cursor-intangible t) nil nil "Customized with use-package emacs")
- '(package-selected-packages
-   '(abyss-theme adwaita-dark-theme atom-one-dark-theme consult
-                 dash-functional elpy github-dark-vscode-theme
-                 gruber-darker-theme gruvbox-theme
-                 highlight-indent-guides llama magit marginalia
-                 markdown-mode monokai-alt-theme orderless projectile
-                 rust-mode smex timu-caribbean-theme transient vertico
-                 vs-dark-theme vscode-dark-plus-theme with-editor)))
+  '(minibuffer-prompt-properties '(cursor-intangible t) nil nil "Customized with use-package emacs")
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

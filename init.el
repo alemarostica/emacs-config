@@ -1,4 +1,12 @@
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(require 'use-package)
 
 (setq-default indent-tabs-mode nil)
 (setq c-basic-offset 4)
@@ -46,6 +54,7 @@
 
 ;; Save completion history across sessions
 (use-package savehist
+  :ensure t
   :init
   (savehist-mode))
 
