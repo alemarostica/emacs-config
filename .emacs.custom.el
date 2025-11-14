@@ -24,9 +24,7 @@
      default))
  '(flymake-error-bitmap '(flymake-double-exclamation-mark compilation-error))
  '(inhibit-startup-screen t)
- '(package-selected-packages
-   '(company dash-functional elpy gruber-darker-theme gruvbox-theme magit
-             markdown-mode projectile smex)))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

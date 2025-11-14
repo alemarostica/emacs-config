@@ -31,6 +31,12 @@
 (use-package markdown-mode
   :ensure t)
 
+(use-package highlight-indent-guides
+  :ensure t
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :custom
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-auto-enabled nil))
 (use-package company
   :ensure t
   :config
