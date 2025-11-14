@@ -24,7 +24,15 @@
      default))
  '(flymake-error-bitmap '(flymake-double-exclamation-mark compilation-error))
  '(inhibit-startup-screen t)
- '(package-selected-packages nil))
+ '(minibuffer-prompt-properties '(cursor-intangible t) nil nil "Customized with use-package emacs")
+ '(package-selected-packages
+   '(abyss-theme adwaita-dark-theme atom-one-dark-theme consult
+                 dash-functional elpy github-dark-vscode-theme
+                 gruber-darker-theme gruvbox-theme
+                 highlight-indent-guides llama magit marginalia
+                 markdown-mode monokai-alt-theme orderless projectile
+                 rust-mode smex timu-caribbean-theme transient vertico
+                 vs-dark-theme vscode-dark-plus-theme with-editor)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

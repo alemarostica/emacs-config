@@ -14,22 +14,58 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
-(ido-mode 1)
-(ido-everywhere 1)
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-widen t)
 (setq display-line-numbers-type 'relative)
 
 (load-file custom-file)
-(load-file "~/.emacs.d/rc/rc.el")
 
 ;; packages
 
-(rc/require-theme 'gruber-darker)
-(rc/require 'smex)
+(use-package gruber-darker-theme
+  :ensure t
+  :config
+  (load-theme 'gruber-darker t))
 
-(use-package markdown-mode
+(use-package magit
   :ensure t)
+
+;; Completion style: Orderless (recommended for Vertico)
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+;; Vertico: minimalistic vertical completion UI
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode))
+
+;; Save completion history across sessions
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; Marginalia: rich annotations in the minibuffer
+(use-package marginalia
+  :ensure t
+  :init
+  (marginalia-mode))
+
+;; Consult: enhanced commands (search, switch buffers, recent files, etc.)
+(use-package consult
+  :ensure t
+  :bind
+  (("C-s" . consult-line)
+   ("C-c M-x" . consult-mode-command)
+   ("C-f" . consult-find)
+   ("M-s r" . consult-ripgrep)
+   ("C-x b" . consult-buffer)
+   ("C-x C-r" . consult-recent-file)
+   ("M-y" . consult-yank-pop)))
 
 (use-package highlight-indent-guides
   :ensure t
@@ -37,6 +73,7 @@
   :custom
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-auto-enabled nil))
+
 (use-package company
   :ensure t
   :config
@@ -78,7 +115,6 @@
 (add-hook 'pyvenv-post-activate-hooks #'my/eglot-restart-after-venv)
 (add-hook 'pyvenv-post-deactivate-hooks #'my/eglot-restart-after-venv)
 
-
 ;; projectile
 (use-package projectile
   :config
@@ -113,7 +149,6 @@
   (add-to-list 'eglot-server-programs '(java-mode . ("jdtls"))))
 
 ;; keybinds
-(global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 (global-set-key (kbd "<f5>") 'compile)
 (global-set-key (kbd "<f6>") 'recompile)
