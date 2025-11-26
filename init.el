@@ -106,6 +106,11 @@
   (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer"))))
 
 ;; I hate python, but I have to use it
+(use-package pyvenv
+  :ensure t
+  :config
+  (setenv "WORKON_HOME" "~/.venv"))
+
 (use-package python-mode
   :mode ("\\.py" . python-mode)
   :hook ((python-mode . eglot-ensure)
