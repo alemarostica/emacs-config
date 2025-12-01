@@ -24,9 +24,10 @@
  '(flymake-error-bitmap '(flymake-double-exclamation-mark compilation-error))
  '(minibuffer-prompt-properties '(cursor-intangible t) nil nil "Customized with use-package emacs")
  '(package-selected-packages
-   '(company consult gruber-darker-theme highlight-indent-guides magit
-             marginalia orderless projectile python-mode rust-mode
-             vertico)))
+   '(company consult gruber-darker-theme highlight-indent-guides
+             highlight-indentation magit marginalia multiple-cursors
+             orderless projectile python-mode pyvenv rust-mode s
+             simple-httpd vertico yasnippet zmq)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

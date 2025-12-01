@@ -9,15 +9,12 @@
 (require 'use-package)
 
 (setq-default indent-tabs-mode nil)
-(setq c-basic-offset 4)
 (setq custom-file "~/.emacs.d/.emacs.custom.el")
 ;;(setq warning-minimum-level :error)
 (setq backup-directory-alist
       '(("." . "~/.emacs.d/backups"))
       auto-save-file-name-transforms
       '((".*" "~/.emacs.d/auto-save-list/" t)))
-
-(add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
 
 (menu-bar-mode 0)
 (tool-bar-mode 0)
@@ -29,6 +26,14 @@
 (load-file custom-file)
 
 ;; packages
+
+(use-package multiple-cursors
+  :ensure t
+  :bind
+  ;; Add a new cursor to the next line
+  ("C-<" . mc/mark-next-like-this)
+  ;; Add a new cursor to the previous line
+  ("C->" . mc/mark-previous-like-this))
 
 (use-package gruber-darker-theme
   :ensure t
@@ -98,6 +103,7 @@
 	      ("C-c a" . eglot-code-actions)))
 
 ;; fuck rust-ts-mode, it doesn't work
+(add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
 (use-package rust-mode
   :mode ("\\.rs" . rust-mode)
   :hook ((rust-mode . eglot-ensure)
