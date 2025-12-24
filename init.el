@@ -38,7 +38,11 @@
 (use-package gruber-darker-theme
   :ensure t
   :config
-  (load-theme 'gruber-darker t))
+  ;;(load-theme 'gruber-darker t))
+  )
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'temple-dark t)
 
 (use-package magit
   :ensure t)

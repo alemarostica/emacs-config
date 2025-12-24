@@ -2,9 +2,9 @@
 *
 
 # EXCEPT
+!*/
 !.gitignore
 !early-init.el
 !.emacs.custom.el
 !init.el
-!themes/*
-!themes/temple-os-emacs-theme/
+!themes/**
