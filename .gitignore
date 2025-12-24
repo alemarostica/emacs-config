@@ -7,3 +7,4 @@
 !.emacs.custom.el
 !init.el
 !themes/*
+!themes/temple-os-emacs-theme/
