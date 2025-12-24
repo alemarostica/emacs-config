@@ -42,7 +42,7 @@
   )
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(load-theme 'temple-dark t)
+(load-theme 'temple-os t)
 
 (use-package magit
   :ensure t)
@@ -79,7 +79,7 @@
   :bind
   (("C-s" . consult-line)
    ("C-c M-x" . consult-mode-command)
-   ("C-f" . consult-find)
+   ("C-c f" . consult-find)
    ("M-s r" . consult-ripgrep)
    ("C-x b" . consult-buffer)
    ("C-x C-r" . consult-recent-file)
