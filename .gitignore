@@ -6,3 +6,4 @@
 !early-init.el
 !.emacs.custom.el
 !init.el
+!themes/*
