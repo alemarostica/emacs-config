@@ -27,6 +27,12 @@
 
 ;; packages
 
+;; Go installs in some unconventional directories, damn
+(add-to-list 'exec-path "/usr/local/go/bin")
+(add-to-list 'exec-path "/home/alessandro/go/bin")
+
+(setenv "PATH" (concat "/usr/local/go/bin:/home/alessandro/go/bin:" (getenv "PATH")))
+
 (use-package multiple-cursors
   :ensure t
   :bind
@@ -35,14 +41,13 @@
   ;; Add a new cursor to the previous line
   ("C->" . mc/mark-previous-like-this))
 
-(use-package gruber-darker-theme
+(use-package ample-theme
   :ensure t
   :config
-  ;;(load-theme 'gruber-darker t))
-  )
+  (load-theme 'ample))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(load-theme 'temple-os t)
+;; (load-theme 'temple-dark t)
 
 (use-package magit
   :ensure t)
@@ -127,6 +132,7 @@
          (python-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "-m" "--stdio"))))
+
 ;; Se si attiva un venv dopo aver aperto un file da un altro venv
 ;; il language server non si setta giusto, bisogna riavviarlo
 (defun my/eglot-restart-after-venv ()
@@ -166,11 +172,20 @@
 
 ;; Fuck, Java è speciale, gotta fix this up
 (use-package java-mode
-  :mode ("\\.java" . java-mode)
-  :hook((java-mode . eglot-ensure)
+  :mode ("\\.java$" . java-mode)
+  :hook ((java-mode . eglot-ensure)
         (java-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(java-mode . ("jdtls"))))
+
+(use-package go-mode
+  :ensure t
+  :mode ("\\.go$" . go-mode)
+  :hook ((go-mode . eglot-ensure)
+         (go-mode . company-mode))
+  :config
+  ;; Go stuff is installed in go dir so I think it needs the whole path
+  (add-to-list 'eglot-server-programs '(go-mode . ("gopls"))))
 
 ;; keybinds
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)

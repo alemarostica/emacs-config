@@ -4,7 +4,19 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("1185283fa4e0604861821c6b3539d39dd7544f0a28d7d3915539bfb2f8d1528a"
+   '("3cc2385c39257fed66238921602d8104d8fd6266ad88a006d0a4325336f5ee02"
+     "58c6711a3b568437bab07a30385d34aacf64156cc5137ea20e799984f4227265"
+     "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11"
+     "1e6997bc08f0b11a2b5b6253525aed4e1eb314715076a0c0c2486bd97569f18a"
+     "5291b60ee27dfc12078f787929498ce82efe5e4d42decdbb994be80cdb2def1f"
+     "ca2ce81d33e0b4bd0fdf20caefdde9cb617fec42eeeaf5cd79c80d630bd5cf6a"
+     "a59d0dbcbdfc57a14bc3fa28cb5a8367bc7ede82d848f517b4979b4a03c09da9"
+     "3538194fff1b928df280dc08f041518a8d51ac3ff704c5e46d1517f5c4d8a0e0"
+     "5a548c9d5a6ca78d13283ed709bddf3307b65a7695e1b2e2b7e0a9dde45e8599"
+     "04aa1c3ccaee1cc2b93b246c6fbcd597f7e6832a97aaeac7e5891e6863236f9f"
+     "6fc9e40b4375d9d8d0d9521505849ab4d04220ed470db0b78b700230da0a86c1"
+     "e0b5fb579ff4c574f82b554cddd35810c2a579b4035769da41d1a9a807e12516"
+     "1185283fa4e0604861821c6b3539d39dd7544f0a28d7d3915539bfb2f8d1528a"
      "4622f003fd51adc9a4817aacce66b6ea9ba6ba9fc4c9108772e392f7cb06e30a"
      "d35afe834d1f808c2d5dc7137427832ccf99ad2d3d65d65f35cc5688404fdf30"
      "8529b6ff705d30e6df50734db169b376e9de050ed56ce4e59ff98d774a710847"
@@ -26,13 +38,13 @@
  '(flymake-error-bitmap '(flymake-double-exclamation-mark compilation-error))
  '(minibuffer-prompt-properties '(cursor-intangible t) nil nil "Customized with use-package emacs")
  '(package-selected-packages
-   '(company consult gruber-darker-theme highlight-indent-guides
-             highlight-indentation magit marginalia multiple-cursors
-             orderless projectile python-mode pyvenv rust-mode s
-             simple-httpd vertico yasnippet zmq)))
+   '(ample-theme company consult highlight-indent-guides
+                 highlight-indentation magit marginalia
+                 multiple-cursors orderless projectile python-mode
+                 pyvenv rust-mode s simple-httpd vertico yasnippet zmq)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background nil)))))
