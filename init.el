@@ -27,11 +27,12 @@
 
 ;; packages
 
-;; Go installs in some unconventional directories, damn
-(add-to-list 'exec-path "/usr/local/go/bin")
-(add-to-list 'exec-path "/home/alessandro/go/bin")
-
-(setenv "PATH" (concat "/usr/local/go/bin:/home/alessandro/go/bin:" (getenv "PATH")))
+;; use PATH from shell
+(use-package exec-path-from-shell
+  :ensure t
+  :if (memq window-system '(mac ns x))
+  :config
+  (exec-path-from-shell-initialize))
 
 (use-package multiple-cursors
   :ensure t
@@ -180,12 +181,13 @@
 
 (use-package go-mode
   :ensure t
-  :mode ("\\.go$" . go-mode)
+  :mode ("\\.go\\" . go-mode)
   :hook ((go-mode . eglot-ensure)
          (go-mode . company-mode))
   :config
   ;; Go stuff is installed in go dir so I think it needs the whole path
-  (add-to-list 'eglot-server-programs '(go-mode . ("gopls"))))
+  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
+  (before-save . (lambda () (when (derived-moed-p 'go-mode) (eglot-format-buffer))))))
 
 ;; keybinds
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
