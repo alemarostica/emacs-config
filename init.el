@@ -181,14 +181,20 @@
 
 (use-package go-mode
   :ensure t
-  :mode ("\\.go\\" . go-mode)
+  :mode ("\\.go$" . go-mode)
   :hook ((go-mode . eglot-ensure)
          (go-mode . company-mode))
   :config
   ;; Go stuff is installed in go dir so I think it needs the whole path
-  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
-  (before-save . (lambda () (when (derived-moed-p 'go-mode) (eglot-format-buffer))))))
+  (add-to-list 'eglot-server-programs '(go-mode . ("gopls"))))
 
+(use-package tex-mode
+  :mode ("\\.tex" . tex-mode)
+  :hook ((tex-mode . eglot-ensure)
+         (tex-mode . company-mode))
+  :config
+  (add-to-list 'eglot-server-programs '(tex-mode . ("texlab"))))
+  
 ;; keybinds
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 (global-set-key (kbd "<f5>") 'compile)
