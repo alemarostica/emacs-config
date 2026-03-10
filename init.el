@@ -1,6 +1,8 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
+(add-to-list 'exec-path (expand-file-name "~/go/bin"))
+(setenv "PATH" (concat (expand-file-name "~/go/bin") path-separator (getenv "PATH")))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -26,13 +28,6 @@
 (load-file custom-file)
 
 ;; packages
-
-;; use PATH from shell
-(use-package exec-path-from-shell
-  :ensure t
-  :if (memq window-system '(mac ns x))
-  :config
-  (exec-path-from-shell-initialize))
 
 (use-package multiple-cursors
   :ensure t
@@ -101,7 +96,7 @@
 (use-package company
   :ensure t
   :config
-  (setq company-idle-delay 0.1)
+  (setq company-idle-delay 0.5)
   (setq company-minimum-prefix-length 2)
   (setq company-echo-delay 0.1))
 
@@ -171,11 +166,18 @@
   :config
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd"))))
 
+(use-package gradle-mode
+  :ensure t
+  :custom
+  (gradle-use-gradlew t)
+  (gradle-gradlew-executable "./gradlew"))
+
 ;; Fuck, Java è speciale, gotta fix this up
 (use-package java-mode
   :mode ("\\.java$" . java-mode)
   :hook ((java-mode . eglot-ensure)
-        (java-mode . company-mode))
+         (java-mode . company-mode)
+         (java-mode . gradle-mode))
   :config
   (add-to-list 'eglot-server-programs '(java-mode . ("jdtls"))))
 
@@ -189,12 +191,13 @@
   (add-to-list 'eglot-server-programs '(go-mode . ("gopls"))))
 
 (use-package tex-mode
+  :ensure t
   :mode ("\\.tex" . tex-mode)
   :hook ((tex-mode . eglot-ensure)
          (tex-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(tex-mode . ("texlab"))))
-  
+
 ;; keybinds
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 (global-set-key (kbd "<f5>") 'compile)
