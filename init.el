@@ -26,6 +26,7 @@
 (setq display-line-numbers-type 'relative)
 
 (load-file custom-file)
+(load-theme 'tsdh-dark)
 
 ;; packages
 
@@ -36,11 +37,6 @@
   ("C-<" . mc/mark-next-like-this)
   ;; Add a new cursor to the previous line
   ("C->" . mc/mark-previous-like-this))
-
-(use-package ample-theme
-  :ensure t
-  :config
-  (load-theme 'ample))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 ;; (load-theme 'temple-dark t)
@@ -96,7 +92,7 @@
 (use-package company
   :ensure t
   :config
-  (setq company-idle-delay 0.5)
+  (setq company-idle-delay 0.3)
   (setq company-minimum-prefix-length 2)
   (setq company-echo-delay 0.1))
 
@@ -105,7 +101,8 @@
   :demand t
   :bind (:map eglot-mode-map
 	      ("<f7>" . eglot-format-buffer)
-	      ("C-c a" . eglot-code-actions)))
+	      ("C-c a" . eglot-code-actions))
+  :config)
 
 ;; fuck rust-ts-mode, it doesn't work
 (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
@@ -127,7 +124,7 @@
   :hook ((python-mode . eglot-ensure)
          (python-mode . company-mode))
   :config
-  (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "-m" "--stdio"))))
+  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp"))))
 
 ;; Se si attiva un venv dopo aver aperto un file da un altro venv
 ;; il language server non si setta giusto, bisogna riavviarlo
@@ -145,8 +142,10 @@
 (use-package projectile
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (add-to-list 'projectile-project-root-files-bottom-up "go.mod")
   (projectile-mode +1)
   :ensure t)
+(setq projectile-ignored-projects '("~/" "/tmp"))
 
 ;; c-mode and c++-mode eglot
 (use-package c-mode
@@ -177,18 +176,31 @@
   :mode ("\\.java$" . java-mode)
   :hook ((java-mode . eglot-ensure)
          (java-mode . company-mode)
-         (java-mode . gradle-mode))
+         (java-mode . gradle-mode)
+         (java-mode . (lambda () (setq tab-width 4))))
   :config
-  (add-to-list 'eglot-server-programs '(java-mode . ("jdtls"))))
+  (add-to-list 'eglot-server-programs '(java-mode . ("jdtls")))) 
+
+;; If there is no go.mod it indexes in /home/user and it gets stuck
+(defun my/eglot-ensure-if-project ()
+  "Start Eglot only if we are in a valid, non-home project."
+  (let ((project (project-current)))
+    (if (and project 
+             (not (string= (expand-file-name (project-root project)) 
+                           (expand-file-name "~/"))))
+        (eglot-ensure)
+      (message (propertize "Eglot suppressed: Not in a project or in HOME root." 
+                           'face '(:foreground "yellow"))))))
 
 (use-package go-mode
   :ensure t
   :mode ("\\.go$" . go-mode)
-  :hook ((go-mode . eglot-ensure)
+  :hook ((go-mode . my/eglot-ensure-if-project)
          (go-mode . company-mode))
   :config
   ;; Go stuff is installed in go dir so I think it needs the whole path
-  (add-to-list 'eglot-server-programs '(go-mode . ("gopls"))))
+  (add-to-list 'eglot-server-programs
+               '(go-mode . ("gopls"))))
 
 (use-package tex-mode
   :ensure t
