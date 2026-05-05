@@ -41,8 +41,8 @@
  '(minibuffer-prompt-properties '(cursor-intangible t) nil nil "Customized with use-package emacs")
  '(package-selected-packages
    '(auctex company consult go-mode gradle-mode highlight-indent-guides
-            magit marginalia multiple-cursors orderless projectile
-            pyvenv smartparens vertico)))
+            java-mode magit marginalia multiple-cursors orderless
+            projectile pyvenv rust-mode smartparens vertico)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
