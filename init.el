@@ -3,6 +3,8 @@
 (package-initialize)
 (add-to-list 'exec-path (expand-file-name "~/go/bin"))
 (setenv "PATH" (concat (expand-file-name "~/go/bin") path-separator (getenv "PATH")))
+(add-to-list 'exec-path (expand-file-name "~/.local/bin"))
+(setenv "PATH" (concat (expand-file-name "~/.local/bin") path-separator (getenv "PATH")))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -92,7 +94,7 @@
 (use-package company
   :ensure t
   :config
-  (setq company-idle-delay 0.3)
+  (setq company-idle-delay 0.2)
   (setq company-minimum-prefix-length 2)
   (setq company-echo-delay 0.1))
 
@@ -109,6 +111,7 @@
 (use-package rust-mode
   :mode ("\\.rs" . rust-mode)
   :hook ((rust-mode . eglot-ensure)
+         (rust-mode . smartparens-mode)
 	 (rust-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer"))))
@@ -119,12 +122,15 @@
   :config
   (setenv "WORKON_HOME" "~/.venv"))
 
-(use-package python-mode
-  :mode ("\\.py" . python-mode)
-  :hook ((python-mode . eglot-ensure)
-         (python-mode . company-mode))
+;; I hate python, but I have to use it
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :hook ((python-base-mode . eglot-ensure)
+         (python-base-mode . smartparens-mode)
+         (python-base-mode . company-mode))
   :config
-  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp"))))
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs '(python-base-mode . ("ty" "server")))))
 
 ;; Se si attiva un venv dopo aver aperto un file da un altro venv
 ;; il language server non si setta giusto, bisogna riavviarlo
@@ -152,6 +158,7 @@
   :mode ("\\.c$" . c-mode)
   :mode ("\\.h$" . c-mode)
   :hook ((c-mode . eglot-ensure)
+         (c-mode . smartparens-mode)
          (c-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(c-mode . ("clangd"))))
@@ -161,6 +168,7 @@
   :mode ("\\.cpp$" . c++-mode)
   :mode ("\\.cxx$" . c++-mode)
   :hook ((c++-mode . eglot-ensure)
+         (c++-mode . smartparens-mode)
          (c++-mode . company-mode))
   :config
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd"))))
@@ -176,6 +184,7 @@
   :mode ("\\.java$" . java-mode)
   :hook ((java-mode . eglot-ensure)
          (java-mode . company-mode)
+         (java-mode . smartparens-mode)
          (java-mode . gradle-mode)
          (java-mode . (lambda () (setq tab-width 4))))
   :config
@@ -196,19 +205,32 @@
   :ensure t
   :mode ("\\.go$" . go-mode)
   :hook ((go-mode . my/eglot-ensure-if-project)
+         (go-mode . smartparens-mode)
          (go-mode . company-mode))
   :config
   ;; Go stuff is installed in go dir so I think it needs the whole path
   (add-to-list 'eglot-server-programs
                '(go-mode . ("gopls"))))
 
-(use-package tex-mode
-  :ensure t
-  :mode ("\\.tex" . tex-mode)
-  :hook ((tex-mode . eglot-ensure)
-         (tex-mode . company-mode))
+(use-package tex
+  :ensure auctex
+  :mode ("\\.tex" . LaTeX-mode)
+  :hook ((LaTeX-mode . eglot-ensure)
+         (LaTeX-mode . company-mode)
+         (LaTeX-mode . flymake-mode)
+         (LaTeX-mode . smartparens-mode))
   :config
-  (add-to-list 'eglot-server-programs '(tex-mode . ("texlab"))))
+  (add-to-list 'eglot-server-programs '(LaTeX-mode . ("texlab"))))
+
+(add-hook 'LaTeX-mode-hook
+          (lambda ()
+            (setq-local company-backends '(company-capf))
+            (setq-local company-minimum-prefix-length 1)))
+
+(use-package smartparens
+  :ensure t
+  :config
+  (require 'smartparens-config))
 
 ;; keybinds
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)

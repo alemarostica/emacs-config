@@ -39,7 +39,10 @@
      default))
  '(flymake-error-bitmap '(flymake-double-exclamation-mark compilation-error))
  '(minibuffer-prompt-properties '(cursor-intangible t) nil nil "Customized with use-package emacs")
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(auctex company consult go-mode gradle-mode highlight-indent-guides
+            magit marginalia multiple-cursors orderless projectile
+            pyvenv smartparens vertico)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
