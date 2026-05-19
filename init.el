@@ -48,7 +48,7 @@
   :custom
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
-  (compltion-category-overrides '((file (styles basic partial-completion)))))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
   :init (marginalia-mode))
@@ -65,6 +65,9 @@
 (use-package savehist
   :init (savehist-mode))
 
+(use-package avy
+  :bind ("C-x g" . avy-goto-char-timer))
+
 ;;; General programming tools
 ;; Almost all coding languages
 (use-package smartparens
@@ -74,9 +77,10 @@
 (use-package company
   :hook (prog-mode . company-mode)
   :custom
-  (company-idle-delay 0.2)
+  (company-idle-delay 0.1)
   (company-echo-delay 0.1)
-  (company-minimum-prefix-length 2))
+  (company-minimum-prefix-length 2)
+  (company-backends '((company-capf :with company-dabbrev-code))))
 
 (use-package highlight-indent-guides
   :hook (prog-mode . highlight-indent-guides-mode)
@@ -89,17 +93,32 @@
   (highlight-indent-guides-auto-enabled nil)
   (highlight-indent-guides-responsive 'top))
 
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+(custom-set-faces
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "#E67E80")))) ; Soft Red
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "#7FBBB3")))) ; Soft Teal
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "#DBBC7F")))) ; Soft Gold
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "#D699B6")))) ; Soft Purple
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "#83C092")))) ; Soft Green
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "#E69875")))) ; Soft Orange
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "#7A8478")))) ; Soft Gray/Green
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "#A7C080")))) ; Lime
+ '(rainbow-delimiters-depth-9-face ((t (:foreground "#D3C6AA"))))) ; Beige
+
 (use-package eglot
   :bind (:map eglot-mode-map
               ("<f7>" . eglot-format-buffer)
               ("C-c a" . eglot-code-actions)))
+(with-eval-after-load 'eglot
+  (set-face-attribute 'eglot-highlight-symbol-face nil
+                      :inherit 'highlight
+                      ))
 
 (use-package projectile
   :init (projectile-mode +1)
   :bind (:map projectile-mode-map ("C-c p" . projectile-command-map))
   :custom (projectile-ignored-projects '("~/" "/tmp")))
-
-(use-package magit)
 
 (use-package multiple-cursors
   :bind (("C-<" . mc/mark-next-like-this)
