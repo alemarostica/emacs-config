@@ -13,7 +13,7 @@
 (setq use-package-always-ensure t)
 
 ;;; Evironment
-(let ((my-paths '("~/go/bin" "~/.local/bin" "~/.cargo/bin")))
+(let ((my-paths '("~/go/bin" "~/.local/bin" "~/.cargo/bin" "/usr/local/go/bin")))
   (dolist (path my-paths)
     (let ((expanded (expand-file-name path)))
       (add-to-list 'exec-path expanded)
@@ -29,7 +29,10 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
-(load-theme 'tsdh-dark t)
+
+(use-package badger-theme
+  :config
+  (load-theme 'badger t))
 
 ;;; Backups and autosave
 (setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory)))
@@ -142,6 +145,11 @@
   :config
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs '(python-base-mode . ("ty" "server")))))
+
+;; md-mode (https://github.com/yibie/md-mode)
+;; Download and put in path
+(add-to-list 'load-path "/home/alessandro/Programs/md-mode")
+(require 'md-mode)
 
 ;; Rust
 (use-package rust-mode
