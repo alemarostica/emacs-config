@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; Bootstrapping
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -32,7 +34,14 @@
 
 (use-package badger-theme
   :config
-  (load-theme 'badger t))
+  (load-theme 'modus-vivendi-tritanopia t))
+
+;;; Smooth scrolling wiht margin
+(use-package smooth-scrolling
+  :hook
+  (prog-mode . smooth-scrolling-mode)
+  :custom
+  (smooth-scroll-margin 5))
 
 ;;; Backups and autosave
 (setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory)))
@@ -157,6 +166,13 @@
 
 (use-package cc-mode
   :hook ((c-mode c++-mode) . eglot-ensure))
+
+(use-package cuda-mode
+  :mode ("\\.cu\\'" . cuda-mode)
+  :hook (cuda-mode . eglot-ensure)
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs '(cuda-mode . ("clangd")))))
 
 ;; Go
 (use-package go-mode
