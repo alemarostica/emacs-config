@@ -3,6 +3,7 @@
 ;;; Bootstrapping
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (package-initialize)
 
 ;;; use-package if not present
@@ -210,9 +211,9 @@
             (setq-local company-minimum-prefix-length 1)))
 
 ;;; Keybinds and other
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 (global-set-key (kbd "<f5>") 'compile)
 (global-set-key (kbd "<f6>") 'recompile)
+(keymap-global-set "C-c c" 'comment-or-uncomment-region)
 
 (when (file-exists-p custom-file)
   (load custom-file))
