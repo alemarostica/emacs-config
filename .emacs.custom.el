@@ -8,8 +8,8 @@
    '("9e5516f545fc5814f929dc36170e51e874d396bee74dcf50f09553db82a27def"
      default))
  '(package-selected-packages
-   '(ample-theme auctex avy badger-theme company consult cuda-mode
-                 cyberpunk-theme go-mode gradle-mode
+   '(ample-theme auctex avy badger-theme borland-blue-theme company
+                 consult cuda-mode cyberpunk-theme go-mode gradle-mode
                  highlight-indent-guides magit marginalia modus-themes
                  multiple-cursors orderless projectile pyvenv
                  rainbow-delimiters rust-mode smartparens

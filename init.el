@@ -33,9 +33,12 @@
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 
-(use-package badger-theme
+;; (use-package badger-theme
+;;   :config
+;;   (load-theme 'modus-vivendi-tritanopia t))
+(use-package borland-blue-theme
   :config
-  (load-theme 'modus-vivendi-tritanopia t))
+  (load-theme 'borland-blue t))
 
 ;;; Smooth scrolling wiht margin
 (use-package smooth-scrolling
@@ -160,6 +163,10 @@
 ;; Download and put in path
 (add-to-list 'load-path "/home/alessandro/Programs/md-mode")
 (require 'md-mode)
+
+(use-package lua-mode
+  :mode ("\\.lua\\'" . lua-mode)
+  :hook (lua-mode . eglot-ensure))
 
 ;; Rust
 (use-package rust-mode
