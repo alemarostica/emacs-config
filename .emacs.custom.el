@@ -9,11 +9,11 @@
      default))
  '(package-selected-packages
    '(ample-theme auctex avy badger-theme borland-blue-theme company
-                 consult cuda-mode cyberpunk-theme go-mode gradle-mode
-                 highlight-indent-guides magit marginalia modus-themes
-                 multiple-cursors orderless projectile pyvenv
-                 rainbow-delimiters rust-mode smartparens
-                 smooth-scrolling vertico)))
+                 consult cuda-mode cyberpunk-theme diff-hl go-mode
+                 gradle-mode highlight-indent-guides magit marginalia
+                 modus-themes multiple-cursors orderless projectile
+                 pulsar pyvenv rainbow-delimiters rust-mode
+                 smartparens smooth-scrolling vertico winum)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

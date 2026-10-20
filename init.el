@@ -32,15 +32,69 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
+(global-hl-line-mode 1)
 
+(load-theme 'modus-vivendi-tritanopia)
 ;; (use-package badger-theme
 ;;   :config
-;;   (load-theme 'modus-vivendi-tritanopia t))
-(use-package borland-blue-theme
-  :config
-  (load-theme 'borland-blue t))
+;;   (load-theme 'badger t))
+;; (use-package borland-blue-theme
+;;   :config
+;;   (load-theme 'borland-blue t))
 
-;;; Smooth scrolling wiht margin
+(use-package magit
+  :bind ("C-x g" . magit-status))
+
+;; Good diff lines
+(use-package diff-hl
+  :hook ((prog-mode . diff-hl-mode)
+         (text-mode . diff-hl-mode)
+         (dired-mode . diff-hl-dired-mode)
+         (magit-pre-refresh . diff-hl-magit-pre-refresh)
+         (magit-post-refresh . diff-hl-magit-post-refresh))
+  :config
+  (diff-hl-flydiff-mode 1)
+  (unless (display-graphic-p)
+    (diff-hl-margin-mode 1)))
+;; decent colors
+(custom-set-faces
+ '(diff-hl-insert ((t (:foreground "#83C092" :background "#83C092"))))
+ '(diff-hl-delete ((t (:foreground "#E67E80" :background "#E67E80"))))
+ '(diff-hl-change ((t (:foreground "#DBBC7F" :background "#DBBC7F")))))
+
+(use-package pulsar
+  :bind
+  ( :map global-map
+    ("C-x l" . pulsar-pulse-line) ; overrides `count-lines-page'
+    ("C-x L" . pulsar-highlight-permanently-dwim)) ; or use `pulsar-highlight-temporarily'
+  :init
+  (pulsar-global-mode 1)
+  :config
+  (setq pulsar-delay 0.055)
+  (setq pulsar-iterations 5)
+  (setq pulsar-face 'pulsar-green)
+  (setq pulsar-region-face 'pulsar-yellow)
+  (setq pulsar-highlight-face 'pulsar-magenta))
+
+;; Boh non si può bindare differentemente?
+(setq winum-keymap
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "C-`") 'winum-select-window-by-number)
+      (define-key map (kbd "M-0") 'winum-select-window-0-or-10)
+      (define-key map (kbd "M-1") 'winum-select-window-1)
+      (define-key map (kbd "M-2") 'winum-select-window-2)
+      (define-key map (kbd "M-3") 'winum-select-window-3)
+      (define-key map (kbd "M-4") 'winum-select-window-4)
+      (define-key map (kbd "M-5") 'winum-select-window-5)
+      (define-key map (kbd "M-6") 'winum-select-window-6)
+      (define-key map (kbd "M-7") 'winum-select-window-7)
+      (define-key map (kbd "M-8") 'winum-select-window-8)
+      map))
+
+(use-package winum
+  :init (winum-mode))
+
+;;; Smooth scrolling with margin
 (use-package smooth-scrolling
   :hook
   (prog-mode . smooth-scrolling-mode)
@@ -82,7 +136,7 @@
   :init (savehist-mode))
 
 (use-package avy
-  :bind ("C-x g" . avy-goto-char-timer))
+  :bind ("C-x j" . avy-goto-char-timer))
 
 ;;; General programming tools
 ;; Almost all coding languages
@@ -125,7 +179,9 @@
 (use-package eglot
   :bind (:map eglot-mode-map
               ("<f7>" . eglot-format-buffer)
-              ("C-c a" . eglot-code-actions)))
+              ("C-c a" . eglot-code-actions))
+  :hook ((c-mode c++-mode) . (lambda ()
+                               (add-hook 'before-save-hook #'eglot-format-buffer nil t))))
 (with-eval-after-load 'eglot
   (set-face-attribute 'eglot-highlight-symbol-face nil
                       :inherit 'highlight
@@ -162,6 +218,7 @@
 ;; md-mode (https://github.com/yibie/md-mode)
 ;; Download and put in path
 (add-to-list 'load-path "/home/alessandro/Programs/md-mode")
+(add-to-list 'load-path "/home/alessandro/Programs/textui")
 (require 'md-mode)
 
 (use-package lua-mode
@@ -173,7 +230,13 @@
   :hook (rust-mode . eglot-ensure))
 
 (use-package cc-mode
-  :hook ((c-mode c++-mode) . eglot-ensure))
+  :hook ((c-mode c++-mode) . eglot-ensure)
+  :config
+  (setq-default c-basic-offset 4)
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (c-set-style "stroustrup")
+              (setq c-basic-offset 4))))
 
 (use-package cuda-mode
   :mode ("\\.cu\\'" . cuda-mode)
