@@ -11,14 +11,17 @@
    '(ample-theme auctex avy badger-theme borland-blue-theme company
                  consult cuda-mode cyberpunk-theme diff-hl go-mode
                  gradle-mode highlight-indent-guides magit marginalia
-                 modus-themes multiple-cursors orderless projectile
-                 pulsar pyvenv rainbow-delimiters rust-mode
+                 modus-themes multiple-cursors nimbus-theme orderless
+                 projectile pulsar pyvenv rainbow-delimiters rust-mode
                  smartparens smooth-scrolling vertico winum)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(diff-hl-change ((t (:foreground "#DBBC7F" :background "#DBBC7F"))))
+ '(diff-hl-delete ((t (:foreground "#E67E80" :background "#E67E80"))))
+ '(diff-hl-insert ((t (:foreground "#83C092" :background "#83C092"))))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#E67E80"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "#7FBBB3"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "#DBBC7F"))))

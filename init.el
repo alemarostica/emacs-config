@@ -15,7 +15,7 @@
 ;; ensure packages installed by default
 (setq use-package-always-ensure t)
 
-;;; Evironment
+;;; Environment
 (let ((my-paths '("~/go/bin" "~/.local/bin" "~/.cargo/bin" "/usr/local/go/bin")))
   (dolist (path my-paths)
     (let ((expanded (expand-file-name path)))
@@ -34,7 +34,7 @@
 (scroll-bar-mode 0)
 (global-hl-line-mode 1)
 
-(load-theme 'modus-vivendi-tritanopia)
+(load-theme 'modus-vivendi-tritanopia t)
 ;; (use-package badger-theme
 ;;   :config
 ;;   (load-theme 'badger t))
@@ -99,7 +99,7 @@
   :hook
   (prog-mode . smooth-scrolling-mode)
   :custom
-  (smooth-scroll-margin 5))
+  (smooth-scroll-margin 8))
 
 ;;; Backups and autosave
 (setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory)))
@@ -141,11 +141,11 @@
 ;;; General programming tools
 ;; Almost all coding languages
 (use-package smartparens
-  :hook (prog-mode . smartparens-mode)
+  :hook ((prog-mode LaTeX-mode) . smartparens-mode)
   :config (require 'smartparens-config))
 
 (use-package company
-  :hook (prog-mode . company-mode)
+  :hook ((prog-mode LaTeX-mode) . company-mode)
   :custom
   (company-idle-delay 0.1)
   (company-echo-delay 0.1)
@@ -165,16 +165,16 @@
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
-(custom-set-faces
- '(rainbow-delimiters-depth-1-face ((t (:foreground "#E67E80")))) ; Soft Red
- '(rainbow-delimiters-depth-2-face ((t (:foreground "#7FBBB3")))) ; Soft Teal
- '(rainbow-delimiters-depth-3-face ((t (:foreground "#DBBC7F")))) ; Soft Gold
- '(rainbow-delimiters-depth-4-face ((t (:foreground "#D699B6")))) ; Soft Purple
- '(rainbow-delimiters-depth-5-face ((t (:foreground "#83C092")))) ; Soft Green
- '(rainbow-delimiters-depth-6-face ((t (:foreground "#E69875")))) ; Soft Orange
- '(rainbow-delimiters-depth-7-face ((t (:foreground "#7A8478")))) ; Soft Gray/Green
- '(rainbow-delimiters-depth-8-face ((t (:foreground "#A7C080")))) ; Lime
- '(rainbow-delimiters-depth-9-face ((t (:foreground "#D3C6AA"))))) ; Beige
+;; (custom-set-faces
+;;  '(rainbow-delimiters-depth-1-face ((t (:foreground "#E67E80")))) ; Soft Red
+;;  '(rainbow-delimiters-depth-2-face ((t (:foreground "#7FBBB3")))) ; Soft Teal
+;;  '(rainbow-delimiters-depth-3-face ((t (:foreground "#DBBC7F")))) ; Soft Gold
+;;  '(rainbow-delimiters-depth-4-face ((t (:foreground "#D699B6")))) ; Soft Purple
+;;  '(rainbow-delimiters-depth-5-face ((t (:foreground "#83C092")))) ; Soft Green
+;;  '(rainbow-delimiters-depth-6-face ((t (:foreground "#E69875")))) ; Soft Orange
+;;  '(rainbow-delimiters-depth-7-face ((t (:foreground "#7A8478")))) ; Soft Gray/Green
+;;  '(rainbow-delimiters-depth-8-face ((t (:foreground "#A7C080")))) ; Lime
+;;  '(rainbow-delimiters-depth-9-face ((t (:foreground "#D3C6AA"))))) ; Beige
 
 (use-package eglot
   :bind (:map eglot-mode-map
