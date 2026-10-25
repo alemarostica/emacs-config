@@ -94,12 +94,13 @@
 (use-package winum
   :init (winum-mode))
 
-;;; Smooth scrolling with margin
-(use-package smooth-scrolling
-  :hook
-  (prog-mode . smooth-scrolling-mode)
-  :custom
-  (smooth-scroll-margin 8))
+;;; Scrolling, smooth-scrolling package was computationaly heavy
+;;; and had lag spikes on fast key repetitions
+(setq scroll-conservatively 101
+      scroll-preserve-screen-position t
+      auto-window-vscroll nil
+      fast-but-imprecise-scrolling t)
+(setq-default scroll-margin 8)
 
 ;;; Backups and autosave
 (setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory)))
