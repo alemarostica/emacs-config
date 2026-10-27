@@ -34,6 +34,16 @@
 (scroll-bar-mode 0)
 (global-hl-line-mode 1)
 
+;;; QOL stuff
+(recentf-mode 1)
+(setq recentf-max-saved-items 200)
+(save-place-mode 1)
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
+(delete-selection-mode 1)
+(setq read-process-output-max (* 1024 1024))
+(setq gc-cons-threshold (* 64 1024 1024))
+
 (load-theme 'modus-vivendi-tritanopia t)
 ;; (use-package badger-theme
 ;;   :config
@@ -44,6 +54,9 @@
 
 (use-package magit
   :bind ("C-x g" . magit-status))
+
+(use-package which-key
+  :init (which-key-mode))
 
 ;; Good diff lines
 (use-package diff-hl
@@ -124,6 +137,10 @@
 (use-package marginalia
   :init (marginalia-mode))
 
+(use-package embark-consult
+  :after (embark consult)
+  :hook (embark-collect-mode . consult-preview-at-point-mode))
+
 (use-package consult
   :bind (("C-s" . consult-line)
          ("C-x b" . consult-buffer)
@@ -132,6 +149,30 @@
          ("C-x C-r" . consult-recent-file)
          ("M-y" . consult-yank-pop)
          ("M-s r" . consult-ripgrep)))
+
+(keymap-global-set "M-g g" #'consult-goto-line)
+(keymap-global-set "M-g i" #'consult-imenu)
+(keymap-global-set "M-g e" #'consult-flymake)
+
+;; Grow/shrink selection by syntactic units
+(use-package expreg
+  :bind (("C-=" . expreg-expand)
+         ("C--" . expreg-contract)))
+
+(use-package embark
+  :bind (("C-." . embark-act)
+         ("C-;" . embark-dwim)
+         ("C-h B" . embark-bindings)))
+
+;; Move lines or regions with M-up / M-down
+(use-package move-text
+  :config (move-text-default-bindings))
+
+(use-package vundo
+  :bind ("C-x u" . vundo))
+
+;; Duplicate line/region
+(keymap-global-set "C-c d" #'duplicate-dwim)
 
 (use-package savehist
   :init (savehist-mode))
@@ -143,6 +184,10 @@
 ;; Almost all coding languages
 (use-package smartparens
   :hook ((prog-mode LaTeX-mode) . smartparens-mode)
+  :custom
+  (sp-highlight-pair-overlay nil)
+  (sp-highlight-wrap-overlay nil)
+  (sp-highlight-wrap-tag-overlay nil)
   :config (require 'smartparens-config))
 
 (use-package company
@@ -153,16 +198,15 @@
   (company-minimum-prefix-length 2)
   (company-backends '((company-capf :with company-dabbrev-code))))
 
-(use-package highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode)
-  :config
-  (set-face-background 'highlight-indent-guides-odd-face "darkgray")
-  (set-face-background 'highlight-indent-guides-even-face "dimgray")
-  (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
+(use-package indent-bars
+  :hook (prog-mode . indent-bars-mode)
   :custom
-  (highlight-indent-guides-method 'character)
-  (highlight-indent-guides-auto-enabled nil)
-  (highlight-indent-guides-responsive 'top))
+  (indent-bars-color '(highlight :face-bg t :blend 0.2))
+  (indent-bars-color-by-depth nil)
+  (indent-bars-highlight-current-depth '(:blend 0.6))
+  (indent-bars-width-frac 0.15)
+  (indent-bars-pad-frac 0.2)
+  (indent-bars-display-on-blank-lines t))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -177,16 +221,53 @@
 ;;  '(rainbow-delimiters-depth-8-face ((t (:foreground "#A7C080")))) ; Lime
 ;;  '(rainbow-delimiters-depth-9-face ((t (:foreground "#D3C6AA"))))) ; Beige
 
+(use-package yasnippet
+  :hook (prog-mode . yas-minor-mode)
+  :config (yas-reload-all))
+
+(use-package yasnippet-snippets
+  :after yasnippet)
+
 (use-package eglot
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-config '(:size 0 :format full))
+  (eglot-send-changes-idle-time 0.3)
   :bind (:map eglot-mode-map
               ("<f7>" . eglot-format-buffer)
-              ("C-c a" . eglot-code-actions))
+              ("C-c a" . eglot-code-actions)
+              ("C-c r" . eglot-rename))
   :hook ((c-mode c++-mode) . (lambda ()
                                (add-hook 'before-save-hook #'eglot-format-buffer nil t))))
 (with-eval-after-load 'eglot
   (set-face-attribute 'eglot-highlight-symbol-face nil
                       :inherit 'highlight
                       ))
+
+;; Fuzzy search symbols across the whole project
+(use-package consult-eglot
+  :after (consult eglot)
+  :bind (:map eglot-mode-map ("C-c s" . consult-eglot-symbols)))
+
+(with-eval-after-load 'flymake
+  (keymap-set flymake-mode-map "M-n" #'flymake-goto-next-error)
+  (keymap-set flymake-mode-map "M-p" #'flymake-goto-prev-error))
+
+;; Highlight TODO / FIXME / NOTE
+(use-package hl-todo
+  :hook (prog-mode . hl-todo-mode))
+
+(use-package sideline
+  :custom
+  (sideline-delay 0.2)
+  (sideline-backends-right '(sideline-eglot sideline-flymake))
+  (sideline-flymake-display-mode 'line)
+  :init
+  (add-hook 'eglot-managed-mode-hook
+            (lambda () (sideline-mode (if (eglot-managed-p) 1 -1)))))
+
+(use-package sideline-eglot :after sideline)
+(use-package sideline-flymake :after sideline)
 
 (use-package projectile
   :init (projectile-mode +1)

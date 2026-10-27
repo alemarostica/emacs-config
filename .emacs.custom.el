@@ -9,11 +9,14 @@
      default))
  '(package-selected-packages
    '(ample-theme auctex avy badger-theme borland-blue-theme company
-                 consult cuda-mode cyberpunk-theme diff-hl go-mode
-                 gradle-mode highlight-indent-guides magit marginalia
-                 modus-themes multiple-cursors nimbus-theme orderless
-                 projectile pulsar pyvenv rainbow-delimiters rust-mode
-                 smartparens vertico winum)))
+                 consult consult-eglot cuda-mode cyberpunk-theme
+                 diff-hl embark embark-consult expreg go-mode
+                 gradle-mode hl-todo indent-bars magit marginalia
+                 modus-themes move-text multiple-cursors nimbus-theme
+                 orderless projectile pulsar pyvenv rainbow-delimiters
+                 rust-mode sideline sideline-eglot sideline-flymake
+                 smartparens vertico vundo winum yasnippet
+                 yasnippet-snippets)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
