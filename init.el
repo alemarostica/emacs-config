@@ -255,7 +255,24 @@
 
 ;; Highlight TODO / FIXME / NOTE
 (use-package hl-todo
-  :hook (prog-mode . hl-todo-mode))
+  :hook (prog-mode . hl-todo-mode)
+  :custom
+  (hl-todo-keyword-faces
+      '(("TODO" . "#00FF95")
+        ("FIXME" . "#FF9500")
+        ("NOTE" . "#9500FF")
+        ("DEBUG" . "#0066FF")
+        ("HACK" . "#FF0000"))))
+
+(use-package magit-todos
+  :after (magit)
+  :custom
+  (magit-todos-ignored-keywords nil)
+  :config (magit-todos-mode 1))
+
+(use-package consult-todo
+  :after (consult hl-todo))
+(keymap-global-set "C-c t" #'consult-todo)
 
 (use-package sideline
   :custom
