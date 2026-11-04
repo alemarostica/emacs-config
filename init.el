@@ -52,6 +52,13 @@
 ;;   :config
 ;;   (load-theme 'borland-blue t))
 
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook))
+
+(use-package helpful)
+(global-set-key (kbd "C-c C-d") #'helpful-at-point)
+
 (use-package magit
   :bind ("C-x g" . magit-status))
 
